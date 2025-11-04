@@ -13,7 +13,8 @@ public class TestConnexionBdd {
         Connection cnx = Connexionbdd.ouvrirConnexion();
         System.out.println ("nombre de chevaux = " + DaoCheval.getLesChevaux(cnx).size());
 
+        
 
-            }
+        }
 
 }
