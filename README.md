@@ -5,7 +5,6 @@ Développée en Java EE avec Mariadb, jdk 1.21, Tomcat 10, Eclipse
 - 🔍 Liste des chevaux
 - 🗂️ Consulter un cheval
 - 📊 Ajouter un cheval
-- 🧪 Tests unitaires avec JUnit
 
 ## Technologies
 - Java 21
