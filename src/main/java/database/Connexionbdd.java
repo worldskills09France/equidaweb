@@ -18,7 +18,7 @@ public class Connexionbdd {
         }
         try {
             //obtention de la connexion
-            connection= DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3307/mabdd","user","mdp");
+            connection= DriverManager.getConnection("jdbc:mariadb://127.0.0.1:330x/nombdd","user","mdp");
             System.out.println("Connexion OK");
 
         } catch (SQLException e) {
