@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Cheval {
 
@@ -14,6 +15,7 @@ public class Cheval {
     private Cheval papa;
     private Cheval maman;
     private String photo;
+    private List<CourseCheval> course;
 
     public Cheval() {
     }
@@ -94,5 +96,13 @@ public class Cheval {
 
 	public void setPhoto(String photo) {
 		this.photo = photo;
+	}
+
+	public List<CourseCheval> getCourse() {
+		return course;
+	}
+
+	public void setCourse(List<CourseCheval> course) {
+		this.course = course;
 	}
 }

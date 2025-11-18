@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="model.Cheval" %>
+<%@ page import="model.CourseCheval" %>
 
 <!DOCTYPE html>
 <html>
@@ -119,6 +120,23 @@
 	                            <div class="col-sm-9 detail-value">
 	                                <img src="<%= leCheval.getPhoto() != null ? leCheval.getPhoto() : "Non renseignée" %>" alt="Non renseignée">
 	                            </div>
+	                        </div>
+							
+							<div class="row detail-row">
+	                            <div class="col-sm-3 detail-label">Courses : </div>
+								<% if(leCheval.getCourse().size() == 0) { %>
+									<div class="col-sm-9 detail-value">
+		                                Non renseignée
+		                            </div>
+								<% } else { %>
+									<div class="col-sm-9 detail-value">
+			                        <% for (CourseCheval c : leCheval.getCourse()) { %>
+										
+			                                <%= c.toString() %>
+										<br>
+			                        <% } %>
+									</div>
+								<% } %>
 	                        </div>
 
                             <div class="row" style="margin-top: 30px;">

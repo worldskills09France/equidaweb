@@ -134,6 +134,8 @@ public class DaoCheval {
 			}
 			
 			cheval.setPhoto(resultatRequete.getString("c_photo"));
+			
+			cheval.setCourse(DaoCourse.getCourseById(cnx, resultatRequete.getInt("c_id")));
 
 		} catch (SQLException e) {
 			e.printStackTrace();
