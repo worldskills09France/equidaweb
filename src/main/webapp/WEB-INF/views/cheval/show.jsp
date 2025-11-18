@@ -94,6 +94,25 @@
                                     <%= leCheval.getRobe() != null ? leCheval.getRobe().getLibelle() : "Non renseignée" %>
                                 </div>
                             </div>
+							
+							<div class="row detail-row">
+	                            <div class="col-sm-3 detail-label">Propriétaire</div>
+	                            <div class="col-sm-9 detail-value">
+	                                <%= leCheval.getProprietaire() != null ? leCheval.getProprietaire().getNom() : "Non renseignée" %>
+	                            </div>
+	                        </div>
+							<div class="row detail-row">
+	                            <div class="col-sm-3 detail-label">Père</div>
+	                            <div class="col-sm-9 detail-value">
+	                                <%= leCheval.getPapa() != null ? leCheval.getPapa().getNom() : "Non renseignée" %>
+	                            </div>
+	                        </div>
+							<div class="row detail-row">
+	                            <div class="col-sm-3 detail-label">Mère</div>
+	                            <div class="col-sm-9 detail-value">
+	                                <%= leCheval.getMaman() != null ? leCheval.getMaman().getNom() : "Non renseignée" %>
+	                            </div>
+	                        </div>
 
                             <div class="row" style="margin-top: 30px;">
                                 <div class="col-sm-offset-3 col-sm-9">

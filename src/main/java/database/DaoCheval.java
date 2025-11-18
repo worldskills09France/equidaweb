@@ -1,6 +1,7 @@
 package database;
 
 import model.Cheval;
+import model.Proprietaire;
 import model.Race;
 import model.Robe;
 
@@ -25,8 +26,8 @@ public class DaoCheval {
 	public static ArrayList<Cheval> getLesChevaux(Connection cnx) {
 		ArrayList<Cheval> lesChevaux = new ArrayList<Cheval>();
 		try {
-			requeteSql = cnx
-					.prepareStatement("SELECT c.id as c_id, c.nom as c_nom, c.date_naissance as c_bd, c.sire as c_sire, c.robe_id as c_robe_id, "
+			requeteSql = cnx.prepareStatement(
+					"SELECT c.id as c_id, c.nom as c_nom, c.date_naissance as c_bd, c.sire as c_sire, c.robe_id as c_robe_id, c.proprietaire_id as c_proprietaire_id, c.papa_id as c_papa_id, c.maman_id as c_maman_id, "
 							+ "r.id as r_id, r.nom as r_nom " + "FROM cheval c "
 							+ "INNER JOIN race r ON c.race_id = r.id");
 			resultatRequete = requeteSql.executeQuery();
@@ -52,9 +53,9 @@ public class DaoCheval {
 		Cheval cheval = null;
 		try {
 			requeteSql = cnx.prepareStatement(
-					"SELECT c.id as c_id, c.nom as c_nom, c.date_naissance as c_bd, c.sire as c_sire, c.robe_id as c_robe_id, " 
-							+ "r.id as r_id, r.nom as r_nom "
-							+ "FROM cheval c " + "INNER JOIN race r ON c.race_id = r.id " + "WHERE c.id = ?");
+					"SELECT c.id as c_id, c.nom as c_nom, c.date_naissance as c_bd, c.sire as c_sire, c.robe_id as c_robe_id, c.proprietaire_id as c_proprietaire_id, c.papa_id as c_papa_id, c.maman_id as c_maman_id, "
+							+ "r.id as r_id, r.nom as r_nom " + "FROM cheval c "
+							+ "INNER JOIN race r ON c.race_id = r.id " + "WHERE c.id = ?");
 			requeteSql.setInt(1, idCheval);
 			resultatRequete = requeteSql.executeQuery();
 			if (resultatRequete.next()) {
@@ -107,7 +108,7 @@ public class DaoCheval {
 			return false;
 		}
 	}
-	
+
 	private static Cheval setCheval(Connection cnx, ResultSet resultatRequete) {
 		Cheval cheval = null;
 		try {
@@ -116,19 +117,29 @@ public class DaoCheval {
 			cheval.setNom(resultatRequete.getString("c_nom"));
 			cheval.setDateNaissance(resultatRequete.getDate("c_bd").toLocalDate());
 			cheval.setSire(resultatRequete.getString("c_sire"));
-			
+
 			Race race = new Race();
 			race.setId(resultatRequete.getInt("r_id"));
 			race.setNom(resultatRequete.getString("r_nom"));
 			cheval.setRace(race);
-			
+
 			Robe robe = DaoRobe.getRobeById(cnx, resultatRequete.getInt("c_robe_id"));
 			cheval.setRobe(robe);
+
+			Proprietaire pro = DaoProprietaire.getProprietaireById(cnx, resultatRequete.getInt("c_proprietaire_id"));
+			cheval.setProprietaire(pro);
 			
+			if(resultatRequete.getInt("c_papa_id") != 0) {
+				cheval.setPapa(getLeCheval(cnx, resultatRequete.getInt("c_papa_id")));
+			}
+			if(resultatRequete.getInt("c_maman_id") != 0) {
+				cheval.setMaman(getLeCheval(cnx, resultatRequete.getInt("c_maman_id")));
+			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return cheval;
 	}
 }
