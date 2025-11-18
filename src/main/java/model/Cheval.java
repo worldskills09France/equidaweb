@@ -13,6 +13,7 @@ public class Cheval {
     private Proprietaire proprietaire;
     private Cheval papa;
     private Cheval maman;
+    private String photo;
 
     public Cheval() {
     }
@@ -85,5 +86,13 @@ public class Cheval {
 
 	public void setMaman(Cheval maman) {
 		this.maman = maman;
+	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 }

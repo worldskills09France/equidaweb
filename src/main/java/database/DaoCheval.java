@@ -13,9 +13,6 @@ import java.util.ArrayList;
 
 public class DaoCheval {
 	Connection cnx;
-	static PreparedStatement requeteSql = null;
-	static ResultSet resultatRequete = null;
-
 	/**
 	 * Récupère tous les chevaux présents dans la base de données avec leurs races
 	 * associées
@@ -26,11 +23,11 @@ public class DaoCheval {
 	public static ArrayList<Cheval> getLesChevaux(Connection cnx) {
 		ArrayList<Cheval> lesChevaux = new ArrayList<Cheval>();
 		try {
-			requeteSql = cnx.prepareStatement(
-					"SELECT c.id as c_id, c.nom as c_nom, c.date_naissance as c_bd, c.sire as c_sire, c.robe_id as c_robe_id, c.proprietaire_id as c_proprietaire_id, c.papa_id as c_papa_id, c.maman_id as c_maman_id, "
+			PreparedStatement requeteSql = cnx.prepareStatement(
+					"SELECT c.id as c_id, c.nom as c_nom, c.date_naissance as c_bd, c.sire as c_sire, c.robe_id as c_robe_id, c.proprietaire_id as c_proprietaire_id, c.papa_id as c_papa_id, c.maman_id as c_maman_id, c.photo as c_photo, "
 							+ "r.id as r_id, r.nom as r_nom " + "FROM cheval c "
 							+ "INNER JOIN race r ON c.race_id = r.id");
-			resultatRequete = requeteSql.executeQuery();
+			ResultSet resultatRequete = requeteSql.executeQuery();
 			while (resultatRequete.next()) {
 				Cheval c = setCheval(cnx, resultatRequete);
 				lesChevaux.add(c);
@@ -52,12 +49,12 @@ public class DaoCheval {
 	public static Cheval getLeCheval(Connection cnx, int idCheval) {
 		Cheval cheval = null;
 		try {
-			requeteSql = cnx.prepareStatement(
-					"SELECT c.id as c_id, c.nom as c_nom, c.date_naissance as c_bd, c.sire as c_sire, c.robe_id as c_robe_id, c.proprietaire_id as c_proprietaire_id, c.papa_id as c_papa_id, c.maman_id as c_maman_id, "
+			PreparedStatement requeteSql = cnx.prepareStatement(
+					"SELECT c.id as c_id, c.nom as c_nom, c.date_naissance as c_bd, c.sire as c_sire, c.robe_id as c_robe_id, c.proprietaire_id as c_proprietaire_id, c.papa_id as c_papa_id, c.maman_id as c_maman_id, c.photo as c_photo, "
 							+ "r.id as r_id, r.nom as r_nom " + "FROM cheval c "
 							+ "INNER JOIN race r ON c.race_id = r.id " + "WHERE c.id = ?");
 			requeteSql.setInt(1, idCheval);
-			resultatRequete = requeteSql.executeQuery();
+			ResultSet resultatRequete = requeteSql.executeQuery();
 			if (resultatRequete.next()) {
 				cheval = setCheval(cnx, resultatRequete);
 			}
@@ -77,7 +74,7 @@ public class DaoCheval {
 	 */
 	public static boolean ajouterCheval(Connection cnx, Cheval cheval) {
 		try {
-			requeteSql = cnx.prepareStatement("INSERT INTO cheval (nom, date_naissance, race_id) VALUES (?, ?, ?)",
+			PreparedStatement requeteSql = cnx.prepareStatement("INSERT INTO cheval (nom, date_naissance, race_id) VALUES (?, ?, ?)",
 					PreparedStatement.RETURN_GENERATED_KEYS);
 			requeteSql.setString(1, cheval.getNom());
 
@@ -135,6 +132,8 @@ public class DaoCheval {
 			if(resultatRequete.getInt("c_maman_id") != 0) {
 				cheval.setMaman(getLeCheval(cnx, resultatRequete.getInt("c_maman_id")));
 			}
+			
+			cheval.setPhoto(resultatRequete.getString("c_photo"));
 
 		} catch (SQLException e) {
 			e.printStackTrace();

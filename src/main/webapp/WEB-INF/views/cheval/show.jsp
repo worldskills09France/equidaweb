@@ -113,6 +113,13 @@
 	                                <%= leCheval.getMaman() != null ? leCheval.getMaman().getNom() : "Non renseignée" %>
 	                            </div>
 	                        </div>
+							
+							<div class="row detail-row">
+	                            <div class="col-sm-3 detail-label">Photo</div>
+	                            <div class="col-sm-9 detail-value">
+	                                <img src="<%= leCheval.getPhoto() != null ? leCheval.getPhoto() : "Non renseignée" %>" alt="Non renseignée">
+	                            </div>
+	                        </div>
 
                             <div class="row" style="margin-top: 30px;">
                                 <div class="col-sm-offset-3 col-sm-9">
