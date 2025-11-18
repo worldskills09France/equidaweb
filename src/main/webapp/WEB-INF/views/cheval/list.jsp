@@ -54,6 +54,7 @@
                             <th>id</th>
                             <th>nom</th>
                             <th>race</th>
+							<th>date de naissance</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,6 +63,7 @@
                                 <td><%= c.getId() %></td>
                                 <td><a href="<%= request.getContextPath() %>/cheval-servlet/show?idCheval=<%= c.getId() %>"><%= c.getNom() %></a></td>
                                 <td><%= c.getRace().getNom() %></td>
+								<td><%= c.getDateNaissance() %></td>
                             </tr>
                         <% } %>
                     </tbody>

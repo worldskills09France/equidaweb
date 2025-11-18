@@ -23,7 +23,7 @@ public class DaoCheval {
         ArrayList<Cheval> lesChevaux = new ArrayList<Cheval>();
         try {
             requeteSql = cnx.prepareStatement(
-                "SELECT c.id as c_id, c.nom as c_nom, " +
+                "SELECT c.id as c_id, c.nom as c_nom, c.date_naissance as c_bd, " +
                 "r.id as r_id, r.nom as r_nom " +
                 "FROM cheval c " +
                 "INNER JOIN race r ON c.race_id = r.id"
@@ -33,6 +33,7 @@ public class DaoCheval {
                 Cheval c = new Cheval();
                 c.setId(resultatRequete.getInt("c_id"));
                 c.setNom(resultatRequete.getString("c_nom"));
+                c.setDateNaissance(resultatRequete.getDate("c_bd").toLocalDate());
                 Race r = new Race();
                 r.setId(resultatRequete.getInt("r_id"));
                 r.setNom(resultatRequete.getString("r_nom"));
@@ -56,7 +57,7 @@ public class DaoCheval {
         Cheval cheval = null;
         try {
             requeteSql = cnx.prepareStatement(
-                "SELECT c.id as c_id, c.nom as c_nom, " +
+                "SELECT c.id as c_id, c.nom as c_nom, c.date_naissance as c_bd, " +
                 "r.id as r_id, r.nom as r_nom " +
                 "FROM cheval c " +
                 "INNER JOIN race r ON c.race_id = r.id " +
@@ -68,6 +69,7 @@ public class DaoCheval {
                 cheval = new Cheval();
                 cheval.setId(resultatRequete.getInt("c_id"));
                 cheval.setNom(resultatRequete.getString("c_nom"));
+                cheval.setDateNaissance(resultatRequete.getDate("c_bd").toLocalDate());
                 Race race = new Race();
                 race.setId(resultatRequete.getInt("r_id"));
                 race.setNom(resultatRequete.getString("r_nom"));
