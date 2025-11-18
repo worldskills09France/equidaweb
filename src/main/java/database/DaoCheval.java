@@ -2,6 +2,7 @@ package database;
 
 import model.Cheval;
 import model.Race;
+import model.Robe;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,12 +26,12 @@ public class DaoCheval {
 		ArrayList<Cheval> lesChevaux = new ArrayList<Cheval>();
 		try {
 			requeteSql = cnx
-					.prepareStatement("SELECT c.id as c_id, c.nom as c_nom, c.date_naissance as c_bd, c.sire as c_sire, "
+					.prepareStatement("SELECT c.id as c_id, c.nom as c_nom, c.date_naissance as c_bd, c.sire as c_sire, c.robe_id as c_robe_id, "
 							+ "r.id as r_id, r.nom as r_nom " + "FROM cheval c "
 							+ "INNER JOIN race r ON c.race_id = r.id");
 			resultatRequete = requeteSql.executeQuery();
 			while (resultatRequete.next()) {
-				Cheval c = setCheval(resultatRequete);
+				Cheval c = setCheval(cnx, resultatRequete);
 				lesChevaux.add(c);
 			}
 		} catch (SQLException e) {
@@ -51,13 +52,13 @@ public class DaoCheval {
 		Cheval cheval = null;
 		try {
 			requeteSql = cnx.prepareStatement(
-					"SELECT c.id as c_id, c.nom as c_nom, c.date_naissance as c_bd, c.sire as c_sire, " 
+					"SELECT c.id as c_id, c.nom as c_nom, c.date_naissance as c_bd, c.sire as c_sire, c.robe_id as c_robe_id, " 
 							+ "r.id as r_id, r.nom as r_nom "
 							+ "FROM cheval c " + "INNER JOIN race r ON c.race_id = r.id " + "WHERE c.id = ?");
 			requeteSql.setInt(1, idCheval);
 			resultatRequete = requeteSql.executeQuery();
 			if (resultatRequete.next()) {
-				cheval = setCheval(resultatRequete);
+				cheval = setCheval(cnx, resultatRequete);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -107,7 +108,7 @@ public class DaoCheval {
 		}
 	}
 	
-	private static Cheval setCheval(ResultSet resultatRequete) {
+	private static Cheval setCheval(Connection cnx, ResultSet resultatRequete) {
 		Cheval cheval = null;
 		try {
 			cheval = new Cheval();
@@ -115,10 +116,15 @@ public class DaoCheval {
 			cheval.setNom(resultatRequete.getString("c_nom"));
 			cheval.setDateNaissance(resultatRequete.getDate("c_bd").toLocalDate());
 			cheval.setSire(resultatRequete.getString("c_sire"));
+			
 			Race race = new Race();
 			race.setId(resultatRequete.getInt("r_id"));
 			race.setNom(resultatRequete.getString("r_nom"));
 			cheval.setRace(race);
+			
+			Robe robe = DaoRobe.getRobeById(cnx, resultatRequete.getInt("c_robe_id"));
+			cheval.setRobe(robe);
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

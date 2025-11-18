@@ -87,6 +87,13 @@
                                     <%= leCheval.getSire() != null ? leCheval.getSire() : "Non renseignée" %>
                                 </div>
                             </div>
+							
+							<div class="row detail-row">
+                                <div class="col-sm-3 detail-label">Robe</div>
+                                <div class="col-sm-9 detail-value">
+                                    <%= leCheval.getRobe() != null ? leCheval.getRobe().getLibelle() : "Non renseignée" %>
+                                </div>
+                            </div>
 
                             <div class="row" style="margin-top: 30px;">
                                 <div class="col-sm-offset-3 col-sm-9">
