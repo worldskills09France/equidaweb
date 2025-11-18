@@ -7,7 +7,7 @@ public class Cheval {
     private int id;
     private String nom;
     private LocalDate dateNaissance;
-
+    private String sire;
     private Race race;
 
     public Cheval() {
@@ -42,4 +42,12 @@ public class Cheval {
     public void setRace(Race race) {
         this.race = race;
     }
+
+	public String getSire() {
+		return sire;
+	}
+
+	public void setSire(String sire) {
+		this.sire = sire;
+	}
 }
