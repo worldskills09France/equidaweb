@@ -5,7 +5,6 @@ target/
 
 bin
 .idea
-.mvn
 equidaweb.zip
 
 ### IntelliJ IDEA ###
